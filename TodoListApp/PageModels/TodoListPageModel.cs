@@ -2,15 +2,34 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
+
+using TodoListApp.Models;
+using TodoListApp.Services;
 
 namespace TodoListApp.PageModels
 {
     public class TodoListPageModel : FreshBasePageModel
     {
-        public TodoListPageModel()
-        {
+        private ObservableCollection<TodoModel> _todoList;
+        private readonly ITodoService _todoService;
 
+        public ObservableCollection<TodoModel> TodoList
+        {
+            get => _todoList;
+            set
+            {
+                if (_todoList != value)
+                {
+                    _todoList = value;
+                    RaisePropertyChanged(nameof(TodoList));
+                }
+            }
+        }
+        public TodoListPageModel(ITodoService todoService)
+        {
+            _todoService = todoService;
         }
         public override void Init(object initData)
         {
@@ -22,6 +41,7 @@ namespace TodoListApp.PageModels
         }
         protected override void ViewIsAppearing(object sender, EventArgs e)
         {
+            TodoList = new ObservableCollection<TodoModel>(_todoService.TodoItems);
             base.ViewIsAppearing(sender, e);
         }
         protected override void ViewIsDisappearing(object sender, EventArgs e)

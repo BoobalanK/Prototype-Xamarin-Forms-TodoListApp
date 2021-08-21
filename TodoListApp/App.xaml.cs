@@ -5,9 +5,12 @@ using System.ComponentModel;
 
 using TodoListApp.PageModels;
 using TodoListApp.Pages;
+using TodoListApp.Services;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+
+using XF.Material.Forms.Resources;
 
 namespace TodoListApp
 {
@@ -16,6 +19,7 @@ namespace TodoListApp
         public App()
         {
             InitializeComponent();
+            XF.Material.Forms.Material.Init(this);
             InitContainer();
             var page = FreshPageModelResolver.ResolvePageModel<TodoListPageModel>();
             var basicNavContainer = new FreshNavigationContainer(page);
@@ -24,7 +28,7 @@ namespace TodoListApp
 
         private void InitContainer()
         {
-            //
+            FreshIOC.Container.Register<ITodoService, TodoService>();
         }
 
         protected override void OnStart()
