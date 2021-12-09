@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dataTemplate="clr-namespace:TodoListApp.DataTemplate"
+             x:Name="DyListPage"
+             x:Class="TodoListApp.Pages.DynamicListViewPage">
+   <ContentPage.Resources>
+      <DataTemplate x:Key="pickerTemplate">
+         <Frame Padding="0"
+                BackgroundColor="#e6e6e6">
+            <Grid ColumnDefinitions="*,auto">
+               <Picker Grid.Column="0"
+                       ItemsSource="{Binding Value.Val.Source}"
+                       Title="{Binding Value.Val.Name}"
+                       SelectedItem="{Binding Value.Val.Value}"
+                 HorizontalOptions="FillAndExpand"/>
+            <Frame Grid.Column="1" HasShadow="False"
+                BackgroundColor="#e6e6e6"
+                Padding="0">
+               <Label Text="Clear" Margin="2" />
+               <Frame.GestureRecognizers>
+                     <TapGestureRecognizer Command="{Binding BindingContext.OnClearCommand, Source={x:Reference DyListPage}}"
+                                        CommandParameter="{Binding .}" />
+               </Frame.GestureRecognizers>
+            </Frame>
+            </Grid>
+         </Frame>
+      </DataTemplate>
+      <DataTemplate x:Key="labelTemplate">
+         <Label Text="{Binding Value.Val.Value}"
+                HorizontalOptions="FillAndExpand" />
+      </DataTemplate>
+      <DataTemplate x:Key="switchTemplate">
+         <Switch IsToggled="True"
+                 HorizontalOptions="FillAndExpand" />
+      </DataTemplate>
+      <dataTemplate:EmployeeDetailTemplate x:Key="EmployeeDetailTemplate"
+                                           LabelTemplate="{StaticResource labelTemplate}"
+                                           PickerTemplate="{StaticResource pickerTemplate}"
+                                           SwitchTemplate="{StaticResource switchTemplate}" />
+   </ContentPage.Resources>
+    <ContentPage.Content>
+      <StackLayout BindableLayout.ItemsSource="{Binding EmployeeDetails}"
+                   BindableLayout.ItemTemplateSelector="{StaticResource EmployeeDetailTemplate}" />
+   </ContentPage.Content>
+</ContentPage>

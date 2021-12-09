@@ -21,7 +21,8 @@ namespace TodoListApp
             InitializeComponent();
             XF.Material.Forms.Material.Init(this);
             InitContainer();
-            var page = FreshPageModelResolver.ResolvePageModel<TodoListPageModel>();
+            //var page = FreshPageModelResolver.ResolvePageModel<TodoListPageModel>();
+            var page = FreshPageModelResolver.ResolvePageModel<DynamicListViewPageModel>();
             var basicNavContainer = new FreshNavigationContainer(page);
             MainPage = basicNavContainer;
         }
